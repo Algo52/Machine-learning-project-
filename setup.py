@@ -6,7 +6,7 @@ PROJECT_NAME="housing-predictor"
 VERSION="0.0.3"
 AUTHOR="Hemanth"
 DESRCIPTION="This is a first FSDS Nov batch Machine Learning Project"
-PAKAGES=["housing"]
+
 REQUIREMENT_FILE_NAME="requirements.txt"
 
 
@@ -28,7 +28,7 @@ name=PROJECT_NAME,
 version=VERSION,
 author=AUTHOR,
 description=DESRCIPTION,
-packages=PAKAGES, 
+packages=find_packages(), 
 install_requires=get_requirements_list()
 )
 
