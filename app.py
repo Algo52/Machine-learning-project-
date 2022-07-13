@@ -16,8 +16,7 @@ def index():
         logging.info(housing.error_message)
         logging.info("we are something to do")
 
-
-    return "creating ci/cd pipeline project"
+    return "creating ci/cd pipeline for my  project"
 
 if __name__=="__main__":
     app.run(debug=True)
