@@ -1,9 +1,8 @@
 
-from asyncio.log import logger
 import logging
 from housing.entity.config_entity import DataIgestionConfig ,DataValidationConfig,DataTransformationConfig ,MOdelTrainerConfig,ModelPusherConfig,ModelEvaluationConfig,TainingPipelineConfig
 from housing.util.util  import read_yaml_file
-import os,yaml,sys
+import os,sys,yaml
 from housing.constant import *
 from housing.exception import HousingException
 from housing.logger import logging
@@ -25,7 +24,7 @@ class Configuration:
             raise HousingException(e,sys) from e
 
     def get_data_ingestion_config(self) ->DataIgestionConfig :
-         try:
+        try:
             artifact_dir = self.training_pipeline_config.artifact_dir
             data_ingestion_artifact_dir=os.path.join(
                 artifact_dir,
@@ -57,7 +56,7 @@ class Configuration:
             )
 
 
-            data_ingestion_config=DataIngestionConfig(
+            data_ingestion_config= DataIgestionConfig(
                 dataset_download_url=dataset_download_url, 
                 tgz_download_dir=tgz_download_dir, 
                 raw_data_dir=raw_data_dir, 
@@ -68,6 +67,7 @@ class Configuration:
             return data_ingestion_config
         except Exception as e:
             raise HousingException(e,sys) from e
+
 
     def get_data_validation_config(self) ->DataValidationConfig :
         pass
@@ -87,7 +87,7 @@ class Configuration:
 
 
     def get_training_pipeline_config(self) -> TainingPipelineConfig:
-         try:
+        try:
             training_pipeline_config = self.config_info[TRAINING_PIPELINE_CONFIG_KEY]
             artifact_dir = os.path.join(ROOT_DIR,
             training_pipeline_config[TRAINING_PIPELINE_NAME_KEY],

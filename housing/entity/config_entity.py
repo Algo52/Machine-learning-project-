@@ -1,4 +1,5 @@
 ## defing a structure or entity
+## or input for file
 from collections import namedtuple
 
 
