@@ -78,7 +78,7 @@ class Configuration:
                 DATA_VALIDATION_ARTIFACT_DIR_NAME,
                 self.time_stamp
             )
-            data_validation_config = self.config_info[DATA_VALIDATION_CONFIG_KEY]
+            data_validation_config = self.config_info[DATA_VALIDATION_CONFIG_KEY] ## i will get all the info which is in config.yaml
 
 
             schema_file_path = os.path.join(ROOT_DIR,

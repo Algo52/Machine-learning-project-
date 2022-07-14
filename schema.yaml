@@ -1,5 +1,0 @@
-## this file  as column names alomg with datatype
-columns:
-   longitude : float
-   latitude : float
-   housing_
