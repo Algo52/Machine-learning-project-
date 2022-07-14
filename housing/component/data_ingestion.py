@@ -40,7 +40,7 @@ class DataIngestion:
                 os.remove(tgz_download_dir)
         
             ### creating a folder if it is not avaliable
-            os.makedirs(tgz_download_dir,exist_ok=TRUE)
+            os.makedirs(tgz_download_dir,exist_ok=True)
 
             ## file name
             housing_file_name=os.path.basename(download_url)

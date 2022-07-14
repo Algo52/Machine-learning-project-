@@ -3,6 +3,7 @@ from housing.component.data_ingestion import DataIngestion
 from housing.config.configuration import Configuration
 from housing.logger import logging
 from housing.exception import HousingException
+import sys
 
 from housing.entity.artifact_entity import DataIngestionArtifact
 from housing.entity.config_entity import DataIgestionConfig
@@ -37,6 +38,7 @@ class Pipeline:
     def run_pipeline(self):
         try:
             #data ingestiom
+            logging.info("Pipeline is already running")
             data_ingestion_artifact=self.start_data_ingestion()
         except Exception as e:
-            raise Exception(e,sys) from e:
+            raise Exception(e,sys) from e

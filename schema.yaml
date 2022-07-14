@@ -1,0 +1,4 @@
+columns:
+   longitude : float
+   latitude : float
+   housing_
