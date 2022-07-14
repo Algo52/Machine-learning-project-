@@ -9,13 +9,9 @@ from housing.logger import logging
 
 
 
-class Configuration:   
+class Configuartion:
 
-
-    def __init__(self,
-        config_file_path:str =CONFIG_FILE_PATH,
-        current_time_stamp:str = CURRENT_TIME_STAMP
-        ) -> None:
+    def __init__(self, config_file_path:str =CONFIG_FILE_PATH,current_time_stamp:str = CURRENT_TIME_STAMP) -> None:
         try:
             self.config_info  = read_yaml_file(file_path=config_file_path)
             self.training_pipeline_config = self.get_training_pipeline_config()
@@ -23,7 +19,8 @@ class Configuration:
         except Exception as e:
             raise HousingException(e,sys) from e
 
-    def get_data_ingestion_config(self) ->DataIgestionConfig :
+
+    def get_data_ingestion_config(self) ->DataIgestionConfig:
         try:
             artifact_dir = self.training_pipeline_config.artifact_dir
             data_ingestion_artifact_dir=os.path.join(
@@ -31,7 +28,7 @@ class Configuration:
                 DATA_INGESTION_ARTIFACT_DIR,
                 self.time_stamp
             )
-            data_ingestion_info = self.config_info[DATA_INGESTION_CONFIG_KEY]   #this will give imformation  
+            data_ingestion_info = self.config_info[DATA_INGESTION_CONFIG_KEY]
             
             dataset_download_url = data_ingestion_info[DATA_INGESTION_DOWNLOAD_URL_KEY]
             tgz_download_dir = os.path.join(
@@ -56,7 +53,7 @@ class Configuration:
             )
 
 
-            data_ingestion_config= DataIgestionConfig(
+            data_ingestion_config = DataIgestionConfig(
                 dataset_download_url=dataset_download_url, 
                 tgz_download_dir=tgz_download_dir, 
                 raw_data_dir=raw_data_dir, 
@@ -68,8 +65,7 @@ class Configuration:
         except Exception as e:
             raise HousingException(e,sys) from e
 
-
-    def get_data_validation_config(self) ->DataValidationConfig :   
+    def get_data_validation_config(self) -> DataValidationConfig:
         try:
             artifact_dir = self.training_pipeline_config.artifact_dir
 
@@ -78,7 +74,7 @@ class Configuration:
                 DATA_VALIDATION_ARTIFACT_DIR_NAME,
                 self.time_stamp
             )
-            data_validation_config = self.config_info[DATA_VALIDATION_CONFIG_KEY] ## i will get all the info which is in config.yaml
+            data_validation_config = self.config_info[DATA_VALIDATION_CONFIG_KEY]
 
 
             schema_file_path = os.path.join(ROOT_DIR,

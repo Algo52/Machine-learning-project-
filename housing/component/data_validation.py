@@ -4,6 +4,11 @@ from housing.entity.config_entity import DataValidationConfig
 from housing.entity.artifact_entity import DataIngestionArtifact,DataValidationArtifact
 import os,sys
 import pandas  as pd
+from evidently.model_profile import Profile
+from evidently.model_profile.sections import DataDriftProfileSection
+from evidently.dashboard import Dashboard
+from evidently.dashboard.tabs import DataDriftTab
+import json
 
 
 
@@ -77,6 +82,54 @@ class DataValidation:
             return validation_status 
         except Exception as e:
             raise HousingException(e,sys) from e
+    
+
+    def get_and_save_data_drift_report(self):       ## 1st saving data_drift to check weather data is drifted are not
+        try:
+            profile = Profile(sections=[DataDriftProfileSection()])     # creating profile object
+
+            train_df,test_df = self.get_train_and_test_df()
+
+            profile.calculate(train_df,test_df)
+
+            report = json.loads(profile.json())
+
+            report_file_path = self.data_validation_config.report_file_path
+            report_dir = os.path.dirname(report_file_path)
+            os.makedirs(report_dir,exist_ok=True)
+
+            with open(report_file_path,"w") as report_file:
+                json.dump(report, report_file, indent=6)
+            return report
+        except Exception as e:
+            raise HousingException(e,sys) from e
+
+
+    def is_data_drift_found(self)->bool:  ## checking wheather data id drifted are not
+        try:
+            report = self.get_and_save_data_drift_report()  ##report will be saved
+            self.save_data_drift_report_page()
+            return True
+        except Exception as e:
+            raise HousingException(e,sys) from e
+    
+
+    def save_data_drift_report_page(self):   
+        try:
+            dashboard = Dashboard(tabs=[DataDriftTab()])  
+            train_df,test_df = self.get_train_and_test_df()
+            dashboard.calculate(train_df,test_df)
+
+            report_page_file_path = self.data_validation_config.report_page_file_path
+            report_page_dir = os.path.dirname(report_page_file_path)
+            os.makedirs(report_page_dir,exist_ok=True)
+
+            dashboard.save(report_page_file_path)
+        except Exception as e:
+            raise HousingException(e,sys) from e
+
+
+    
 
 
 
@@ -98,3 +151,8 @@ class DataValidation:
             return data_validation_artifact
         except Exception as e:
             raise HousingException(e,sys) from e
+    
+
+    def __del__(self):
+        logging.info(f"{'>>'*30}Data Valdaition log completed.{'<<'*30} \n\n")
+        
